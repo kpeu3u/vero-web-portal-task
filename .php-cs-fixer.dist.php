@@ -13,11 +13,14 @@ $finder = (new Finder())
 return (new Config())
     ->setRules([
         '@Symfony' => true,
+        '@Symfony:risky' => true,
+        'linebreak_after_opening_tag' => true,
         'no_alternative_syntax' => true,
         'strict_comparison' => true,
         'strict_param' => true,
         'declare_strict_types' => true,
         'yoda_style' => false,
+        'concat_space' => ['spacing' => 'one'],
     ])
     ->setFinder($finder)
     ->setUsingCache(false)

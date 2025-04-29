@@ -21,7 +21,6 @@ class TaskCollector
     private readonly string $apiPassword;
     private readonly string $apiBasicAuth;
 
-
     public function __construct()
     {
         // Load environment variables
@@ -47,20 +46,19 @@ class TaskCollector
         ]);
     }
 
-
     public function fetchTasks(): array
     {
         try {
             // First, get the authentication token
             $loginResponse = $this->httpClient->post(self::API_LOGIN_URL, [
                 'headers' => [
-                    'Authorization' => 'Basic '. $this->apiBasicAuth,
-                    'Content-Type' => 'application/json'
+                    'Authorization' => 'Basic ' . $this->apiBasicAuth,
+                    'Content-Type' => 'application/json',
                 ],
                 'json' => [
                     'username' => $this->apiUsername,
                     'password' => $this->apiPassword,
-                ]
+                ],
             ]);
 
             $loginData = json_decode($loginResponse->getBody()->getContents(), true);
@@ -76,17 +74,15 @@ class TaskCollector
             $tasksResponse = $this->httpClient->get(self::API_TASKS_URL, [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
-                    'Content-Type' => 'application/json'
-                ]
+                    'Content-Type' => 'application/json',
+                ],
             ]);
 
             return json_decode($tasksResponse->getBody()->getContents(), true);
-
         } catch (GuzzleException $e) {
-            echo 'Failed to fetch tasks. Error: (' . $e->getMessage() . ') ' . PHP_EOL;
+            echo 'Failed to fetch tasks. Error: (' . $e->getMessage() . ') ' . \PHP_EOL;
+
             return [];
         }
     }
-
-
 }
