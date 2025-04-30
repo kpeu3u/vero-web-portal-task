@@ -1,69 +1,55 @@
-Hello dear web portal dev prospect!
+# VERO Digital Task
 
-This repository is a playground for your submission which should use PHP in the backend and HTML/JS in the frontend.
+A web-based task management system that displays tasks in both DataTable and simple table views and implements modal popups for image selection. 
 
-Before getting started, please hit the `Use this template` button to create a new repository on which you commit and push your code regularly for the task below. Once you are done, please mail us the link to your repository.
 
-Good luck and have fun ☘️
+## Features
 
-# Task
+- Two table views:
+   - DataTable with built-in sorting, searching, and pagination
+   - Simple table with custom search and sorting functionality
+   - Real-time color coding of tasks
+   - Automatic data refresh every 60 minutes
+   - Last update timestamp display
+- Modal popups for image selection
+- 
+## Requirements
 
-Develop a web page that connects to a remote API, downloads a dataset, displays a table with the downloaded dataset, and provides some basic search and filter functions.
+- PHP 8.2 or higher
+- Web server (Apache/Nginx)
+- Modern web browser
+- Composer for dependency management
 
-In particular, the web page should:
+## Installation
 
-- Request the data located at `https://api.baubuddy.de/dev/index.php/v1/tasks/select` from PHP
-- Display the downloaded data in a table showing `task`, `title`, `description` and `colorCode`. The displayed HTML element for the `colorCode` should have its color set accordingly
-- Create a search which allows searching for any of the data in the table
-- Implement auto-refresh functionality which requests the data from above every 60 minutes and updates the table with the new data without reloading the web page. The data should be fetched via PHP
-- Outside the table, create a button that opens a modal. In this modal, there should be another button that allows you to select any image from the file system. When you have selected the image, it will be displayed in the modal
-  - Note that this is not linked to the data from above
-
-# Authorization
-
-It is mandatory that your requests to the API are authorized. You can find the required request below:
-
-This is how it looks in `curl`:
-
+1. Clone the repository:
 ```bash
-curl --request POST \
-  --url https://api.baubuddy.de/index.php/login \
-  --header 'Authorization: Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz' \
-  --header 'Content-Type: application/json' \
-  --data '{
-        "username":"365",
-        "password":"1"
-}'
+git clone [repository-url]
+```
+2. Install dependencies:
+```bash
+composer install
+```
+3. Set up your web server to point to the `public` directory of the cloned repository.
+4. Create a `.env` file in the root directory.
+   - Copy the file to : `.env.example``.env`
+```bash
+cp .env.example .env
+```
+5. Update the `.env` file with your configuration:
+```env
+# API Configuration
+API_BASE_URL=https://api.baubuddy.de
+API_USERNAME=
+API_PASSWORD=
+API_BASIC_AUTH=
 ```
 
-The response will contain a JSON object, having the access token in `json["oauth"]["access_token"]`. For all subsequent calls this has to be added to the request headers as `Authorization: Bearer {access_token}`.
+## Testing
 
-A possible implementation in `PHP` could be the following. You don't have to adopt this, you can also customize it or use another network library.
+### Running Tests
 
-```php
-<?php
-$curl = curl_init();
-curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.baubuddy.de/index.php/login",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"username\":\"365\", \"password\":\"1\"}",
-  CURLOPT_HTTPHEADER => [
-    "Authorization: Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz",
-    "Content-Type: application/json"
-  ],
-]);
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $response;
-}
-?>
+1. Run all tests:
+```bash
+    ./vendor/bin/phpunit tests/Service/TaskCollectorTest.php
 ```
