@@ -24,8 +24,13 @@ A web-based task management system that displays tasks in both DataTable and sim
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/kpeu3u/vero-web-portal-task
 ```
+or
+```bash
+git clone git@github.com:kpeu3u/vero-web-portal-task.git
+```
+
 2. Install dependencies:
 ```bash
 composer install
